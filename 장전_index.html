@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>장전</title>
+    <meta property="og:title" content="장사는전략이다심화과정 - 장전">
+    <meta property="og:description" content="다 죽어도 우리는 살아남는다. 10년간 3780명의 성공데이터에서 고객의 마음을 사로잡는 '가장빠른 지름길'을 찾아가세요.">    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'royal-black': '#0a0a0a',
+                        'primary-color': '#DC143C', /* [수정] 메인 컬러 변경 */
+                        'secondary-color': '#FACC15',
+                        'dark-gray': '#1a1a1a',
+                        'off-white': '#F9FAFB',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        serif: ['"Noto Serif KR"', 'serif'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(255, 0, 0, 0.4)', /* [수정] 그림자 컬러 변경 */
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        html { 
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body { 
+            word-break: keep-all;
+            overflow-x: hidden;
+            background-color: #f0f0f0;
+        }
+
+        .main-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        html.dark .main-wrapper {
+            background-color: #0a0a0a;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        @media (min-width: 1024px) {
+            html {
+                font-size: 18px;
+            }
+        }
+        
+        button, a {
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            display: block; /* 이미지 공백 제거 */
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        /* 슬라이드 공통 스타일 */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            flex: 0 0 100%;
+            box-sizing: border-box;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        /* 이미지 섹션 스타일 (공백 제거) */
+        .image-section img {
+            margin: 0;
+            padding: 0;
+            border: none;
+            vertical-align: bottom;
+        }
+    </style>
+
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+
+<body class="antialiased text-gray-900 dark:text-white transition-colors duration-300">
+    
+    <div class="main-wrapper relative">
+
+        <!-- Sticky Header -->
+        <header class="sticky-header bg-white/80 dark:bg-royal-black/90 border-b border-gray-200 dark:border-white/10">
+            <div class="px-4 sm:px-6 h-14 sm:h-16 flex justify-between items-center">
+                <div class="text-lg sm:text-xl font-black tracking-tighter uppercase">
+                    <!-- [수정] 타이틀 변경 -->
+                    (04월 06일 개강예정) <span class="text-primary-color">장전</span> <span class="text-gray-900 dark:text-white font-light"> - 장사는전략이다 심화과정</span>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <button id="theme-toggle-btn" class="bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-secondary-color hover:scale-110 transition-transform rounded-full w-10 h-10 flex items-center justify-center">
+                        <i id="theme-toggle-dark-icon" class="hidden fas fa-moon"></i>
+                        <i id="theme-toggle-light-icon" class="hidden fas fa-sun text-xl"></i>
+                    </button>
+
+                    <button onclick="document.getElementById('enrollment').scrollIntoView({behavior:'smooth'})" 
+                            class="bg-primary-color hover:bg-red-600 active:bg-red-700 text-white px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-full transition-all shadow-glow">
+                        수강 신청
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="image-section">
+            
+            <!-- 1. landing_page_1.png -->
+            <img src="./jangjeon_images/landing_page_1.png" alt="장전 소개 1" onerror="this.src='https://via.placeholder.com/800x1000/ff0000/ffffff?text=landing_page_1.png'">
+
+            <!-- 2. landing_page_2.png -->
+            <img src="./jangjeon_images/landing_page_2.png" alt="장전 소개 2" onerror="this.src='https://via.placeholder.com/800x1000/333333/ffffff?text=landing_page_2.png'">
+
+            <!-- 3. kakaotalk_01~05.png (슬라이드) -->
+            <section class="w-full bg-gray-100 dark:bg-dark-gray">
+                <div class="carousel-container group" id="carousel-kakao">
+                    <div class="carousel-track" id="track-kakao">
+                        <!-- JS로 01~05 반복 생성 -->
+                        <div class="carousel-slide"><img src="./jangjeon_images/kakaotalk_01.png" onerror="this.src='https://via.placeholder.com/800x800/fae100/3c1e1e?text=Kakao_01'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/kakaotalk_02.png" onerror="this.src='https://via.placeholder.com/800x800/fae100/3c1e1e?text=Kakao_02'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/kakaotalk_03.png" onerror="this.src='https://via.placeholder.com/800x800/fae100/3c1e1e?text=Kakao_03'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/kakaotalk_04.png" onerror="this.src='https://via.placeholder.com/800x800/fae100/3c1e1e?text=Kakao_04'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/kakaotalk_05.png" onerror="this.src='https://via.placeholder.com/800x800/fae100/3c1e1e?text=Kakao_05'"></div>
+                    </div>
+                    
+                    <button id="prev-kakao" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-primary-color text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors z-10">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="next-kakao" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-primary-color text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors z-10">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 4. landing_page_3.png -->
+            <img src="./jangjeon_images/landing_page_3.png" alt="장전 소개 3" onerror="this.src='https://via.placeholder.com/800x1000/ff0000/ffffff?text=landing_page_3.png'">
+
+            <!-- 5. YouTube Video 1 -->
+            <section class="w-full bg-black py-8">
+                <div class="px-4">
+                    <div class="video-container shadow-2xl rounded-xl border border-gray-800">
+                        <!-- [확인] 실제 영상 ID로 변경 필요 -->
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID_1?rel=0" title="YouTube video 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. landing_page_4.png -->
+            <img src="./jangjeon_images/landing_page_4.png" alt="장전 소개 4" onerror="this.src='https://via.placeholder.com/800x1000/333333/ffffff?text=landing_page_4.png'">
+
+            <!-- 7. review_01~06.png (슬라이드) -->
+            <section class="w-full bg-white dark:bg-royal-black">
+                <div class="carousel-container group" id="carousel-review">
+                    <div class="carousel-track" id="track-review">
+                        <div class="carousel-slide"><img src="./jangjeon_images/review_01.png" onerror="this.src='https://via.placeholder.com/800x800/eeeeee/333333?text=Review_01'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/review_02.png" onerror="this.src='https://via.placeholder.com/800x800/eeeeee/333333?text=Review_02'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/review_03.png" onerror="this.src='https://via.placeholder.com/800x800/eeeeee/333333?text=Review_03'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/review_04.png" onerror="this.src='https://via.placeholder.com/800x800/eeeeee/333333?text=Review_04'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/review_05.png" onerror="this.src='https://via.placeholder.com/800x800/eeeeee/333333?text=Review_05'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/review_06.png" onerror="this.src='https://via.placeholder.com/800x800/eeeeee/333333?text=Review_06'"></div>
+                    </div>
+                    
+                    <button id="prev-review" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-primary-color text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors z-10">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="next-review" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-primary-color text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors z-10">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 8. landing_page_5.png -->
+            <img src="./jangjeon_images/landing_page_5.png" alt="장전 소개 5" onerror="this.src='https://via.placeholder.com/800x1000/ff0000/ffffff?text=landing_page_5.png'">
+
+            <!-- 9. YouTube Video 2 -->
+            <section class="w-full bg-black py-8">
+                <div class="px-4">
+                    <div class="video-container shadow-2xl rounded-xl border border-gray-800">
+                        <!-- [확인] 실제 영상 ID로 변경 필요 -->
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID_2?rel=0" title="YouTube video 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. recommend_01~04.png (슬라이드) -->
+            <section class="w-full bg-gray-50 dark:bg-dark-gray">
+                <div class="carousel-container group" id="carousel-recommend">
+                    <div class="carousel-track" id="track-recommend">
+                        <div class="carousel-slide"><img src="./jangjeon_images/recommend_01.png" onerror="this.src='https://via.placeholder.com/800x800/dddddd/333333?text=Recommend_01'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/recommend_02.png" onerror="this.src='https://via.placeholder.com/800x800/dddddd/333333?text=Recommend_02'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/recommend_03.png" onerror="this.src='https://via.placeholder.com/800x800/dddddd/333333?text=Recommend_03'"></div>
+                        <div class="carousel-slide"><img src="./jangjeon_images/recommend_04.png" onerror="this.src='https://via.placeholder.com/800x800/dddddd/333333?text=Recommend_04'"></div>
+                    </div>
+                    
+                    <button id="prev-recommend" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-primary-color text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors z-10">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="next-recommend" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-primary-color text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors z-10">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 11. landing_page_6.png -->
+            <img src="./jangjeon_images/landing_page_6.png" alt="장전 소개 6" onerror="this.src='https://via.placeholder.com/800x1000/333333/ffffff?text=landing_page_6.png'">
+        <!-- Section 13: Enrollment -->
+        <section id="enrollment" class="py-24 px-6 bg-off-white dark:bg-gradient-to-t dark:from-gray-900 dark:to-royal-black">
+            <div class="container mx-auto max-w-4xl">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <p class="text-primary-color font-bold tracking-widest uppercase mb-2">장사는전략이다 심화과정</p>
+                    <h2 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white section-title">장전 수강안내</h2>
+                </div>
+
+                <div class="bg-white dark:bg-dark-gray rounded-3xl p-8 md:p-12 border border-gray-200 dark:border-white/10 shadow-xl dark:shadow-2xl" data-aos="fade-up">
+                    <div class="grid md:grid-cols-2 gap-10">
+                        <!-- Left Side: Course Info -->
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-primary-color font-bold mb-1"><i class="far fa-calendar-alt mr-2"></i> 교육 기간</p>
+                                <p class="text-gray-900 dark:text-white text-lg font-bold">04월 06일 (월) ~ 06월 01일 (월)</p>
+                                <p class="text-red-500 text-sm font-bold">5월 25일 대체공휴일로 휴강</p>
+                            </div>
+                            <div>
+                                <p class="text-primary-color font-bold mb-1"><i class="far fa-clock mr-2"></i> 교육 시간</p>
+                                <p class="text-gray-900 dark:text-white text-lg font-bold">매주 월요일 15:00 ~ 17:30 (2시간 30분)</p>
+                            </div>
+                            <div>
+                                <p class="text-primary-color font-bold mb-1"><i class="fas fa-won-sign mr-2"></i> 교육비</p>
+                                <p class="text-gray-900 dark:text-white text-lg font-bold">2,100,000원</p>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm">※ 등록마감일 : 04월 03일 (금)</p>
+                                <p class="text-gray-400 dark:text-gray-500 text-xs">※ 계좌 이체시 계산서 발급, 카드 결제시 할부 가능</p>
+                            </div>
+                        </div>
+
+                        <!-- Right Side: Location & Map -->
+                        <div class="space-y-4">
+                            <div>
+                                <p class="text-primary-color font-bold mb-1"><i class="fas fa-map-marker-alt mr-2"></i> 교육 장소</p>
+                                <p class="text-gray-900 dark:text-white font-bold">서울 강남구 삼성로 104길 17 대모빌딩 4층 김유진아카데미</p>
+                                <ul class="text-sm text-gray-500 dark:text-gray-400 mt-2 space-y-1">
+                                    <li><span class="bg-green-700 text-white text-xs px-1.5 py-0.5 rounded mr-1">2호선</span> 삼성역 5번 출구 도보 13분</li>
+                                    <li><span class="bg-yellow-600 text-white text-xs px-1.5 py-0.5 rounded mr-1">9호선</span> 삼성중앙역 5번 출구 도보 5분</li>
+                                </ul>
+                            </div>
+                            <div class="w-full h-48 rounded-xl overflow-hidden shadow-inner border border-gray-200 dark:border-gray-700">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.8!2d127.05!3d37.51!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca46bc9262e3d%3A0xc6657c793f773491!2z7ISc7Jq47Yq567OE7IucIOqwleuCqOq1rCDsgrzshLHroZwgMTA06ri4IDE3!5e0!3m2!1sko!2skr!4v1700000000000"
+                                    width="100%" 
+                                    height="100%" 
+                                    style="border:0;" 
+                                    allowfullscreen="" 
+                                    loading="lazy"
+                                    class="grayscale dark:opacity-80 hover:grayscale-0 transition-all duration-500">
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-8 border-t border-gray-100 dark:border-gray-700 space-y-2 text-sm sm:text-base">
+                        <p class="text-gray-600 dark:text-gray-300"><i class="fas fa-gift text-primary-color mr-2"></i> 추천인, 등록인 모두 5% 적립! (김유진 아카데미 전 수업 사용 가능)</p>
+                    </div>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="mt-16 flex flex-col items-center space-y-8">
+                    <a href="https://naver.me/517TkIDA" target="_blank" class="inline-block text-center w-full md:w-auto bg-primary-color hover:bg-blue-600 text-white font-black py-5 px-12 md:px-20 rounded-full text-2xl shadow-glow transition-all transform hover:scale-105 animate-pulse no-underline">
+                        장전 33기 신청하기
+                    </a>
+                    
+                    <div class="flex flex-col items-center gap-6 max-w-md mx-auto border-t border-gray-200 dark:border-white/10 pt-12 w-full">
+                        <a href="https://kyjacademy.github.io/offline_course_list" target="_blank" class="w-full px-8 py-4 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:text-primary-color hover:border-primary-color dark:hover:text-white dark:hover:border-white transition-all font-bold flex items-center justify-center gap-3 group">
+                            <i class="fas fa-book-open group-hover:scale-110 transition-transform"></i>
+                            다른 강의 둘러보기
+                        </a>
+                    
+                        <a href="https://m.site.naver.com/1zqiL" target="_blank" class="w-full rounded-xl border border-gray-300 dark:border-gray-600 hover:border-primary-color transition-all overflow-hidden group bg-white dark:bg-transparent">
+                            <div class="flex items-center gap-4 p-4">
+                                <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                                    <img src="./jangjeon_images/ALLINONE_PACKAGE_IMAGE.jpg" alt="올인원 패키지" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                </div>
+                                <div class="flex-1 text-left">
+                                    <p class="text-gray-900 dark:text-white font-bold group-hover:text-primary-color transition-colors">올인원 패키지</p>
+                                    <p class="text-sm text-gray-500">모든 강의를 한 번에 수강하기</p>
+                                </div>
+                                <i class="fas fa-chevron-right text-gray-400 group-hover:text-primary-color transition-colors"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-black py-12 text-center text-gray-500 dark:text-gray-600 text-sm border-t border-gray-200 dark:border-gray-900">
+        <div class="container mx-auto px-4">
+            <p class="mb-2">김유진 아카데미 | 서울시 강남구 삼성로 104길 17 대모빌딩 4층</p>
+            <p>Copyright © KYJ ACADEMY. All rights reserved.</p>
+        </div>
+    </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // AOS 초기화
+        AOS.init({ duration: 800, once: true });
+
+        // 다크모드 로직
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+        function updateIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+            } else {
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            }
+        }
+        updateIcons();
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+            updateIcons();
+        });
+
+        // [수정] 다중 슬라이드 제어 함수
+        function initCarousel(trackId, prevBtnId, nextBtnId) {
+            const track = document.getElementById(trackId);
+            if(!track) return; // 요소가 없으면 종료
+            
+            const slides = Array.from(track.children);
+            const nextBtn = document.getElementById(nextBtnId);
+            const prevBtn = document.getElementById(prevBtnId);
+            let currentIndex = 0;
+
+            const updateSlidePosition = () => {
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            };
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateSlidePosition();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                updateSlidePosition();
+            });
+
+            // 자동 슬라이드 (각 슬라이드마다 개별 타이머 동작)
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateSlidePosition();
+            }, 3000 + Math.random() * 1000); // 약간의 시간차를 두어 동시에 움직이는 부자연스러움 방지
+        }
+
+        // 3개의 슬라이드 각각 초기화
+        initCarousel('track-kakao', 'prev-kakao', 'next-kakao');
+        initCarousel('track-review', 'prev-review', 'next-review');
+        initCarousel('track-recommend', 'prev-recommend', 'next-recommend');
+    </script>
+</body>
+</html>
